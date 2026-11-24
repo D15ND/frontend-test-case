@@ -3,6 +3,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import { store, setProducts, setUser, setLoading } from './store/store'
 
 import './App.css'
+import Header from '@components/Header/Header'
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function ProductList() {
   const dispatch = useDispatch()
   const products = useSelector((state) => state.app.products)
   const loading = useSelector((state) => state.app.loading)
-  
+
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [sortBy, setSortBy] = useState('name')
@@ -30,7 +31,7 @@ function ProductList() {
 
   useEffect(() => {
     dispatch(setLoading(true))
-    
+
     setTimeout(() => {
       const mockProducts = [
         { id: 1, name: 'iPhone 14', price: 799, category: 'phones', image: 'https://via.placeholder.com/200', description: 'Новейший iPhone' },
@@ -82,7 +83,7 @@ function ProductList() {
             onChange={handleSearchChange}
           />
         </div>
-        
+
         <div className="filter-controls">
           <select value={selectedCategory} onChange={handleCategoryChange}>
             <option value="all">Все категории</option>
@@ -90,12 +91,12 @@ function ProductList() {
             <option value="laptops">Ноутбуки</option>
             <option value="tablets">Планшеты</option>
           </select>
-          
+
           <select value={sortBy} onChange={handleSortChange}>
             <option value="name">По названию</option>
             <option value="price">По цене</option>
           </select>
-          
+
           <button onClick={() => setShowFilters(!showFilters)}>
             {showFilters ? 'Скрыть фильтры' : 'Показать фильтры'}
           </button>
@@ -109,7 +110,7 @@ function ProductList() {
             <h3>{product.name}</h3>
             <p>{product.description}</p>
             <div className="price">${product.price}</div>
-            <button 
+            <button
               onClick={() => {
                 const action = { type: 'app/addToCart', payload: product }
                 dispatch(action)
@@ -129,7 +130,7 @@ function Cart() {
   const cart = useSelector((state) => state.app.cart)
   const cartCount = useSelector((state) => state.app.cartCount)
   const totalPrice = useSelector((state) => state.app.totalPrice)
-  
+
   const [isOpen, setIsOpen] = useState(false)
   const [showCheckout, setShowCheckout] = useState(false)
 
@@ -157,7 +158,7 @@ function Cart() {
 
   return (
     <div className="cart">
-      <button 
+      <button
         className="cart-toggle"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -191,7 +192,7 @@ function Cart() {
                       </button>
                     </div>
                   </div>
-                  <button 
+                  <button
                     className="remove-btn"
                     onClick={() => handleRemoveItem(item.id)}
                   >
@@ -204,7 +205,7 @@ function Cart() {
 
           <div className="cart-footer">
             <div className="total">Итого: ${totalPrice}</div>
-            <button 
+            <button
               className="checkout-btn"
               onClick={handleCheckout}
               disabled={cart.length === 0 || showCheckout}
@@ -215,34 +216,6 @@ function Cart() {
         </div>
       )}
     </div>
-  )
-}
-
-function Header() {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.app.user)
-  
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(setUser({ 
-        id: 1, 
-        name: 'Иван Иванов', 
-        email: 'ivan@example.com' 
-      }))
-    }, 500)
-  }, [dispatch])
-
-  return (
-    <header className="header">
-      <h1>🛒 Интернет-магазин</h1>
-      <div className="user-info">
-        {user ? (
-          <span>Привет, {user.name}!</span>
-        ) : (
-          <span>Загрузка...</span>
-        )}
-      </div>
-    </header>
   )
 }
 
