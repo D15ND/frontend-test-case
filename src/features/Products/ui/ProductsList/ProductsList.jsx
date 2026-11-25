@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { addToCart, setLoading, setProducts } from '@app/providers/store/store';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mockProducts } from '../../data/mockProducts';
 import ProductFilter from '../ProductsFilter/ProductsFilter';
 import styles from './ProductsList.module.css';
-import { setLoading, setProducts } from '@app/providers/store/store';
 
 export function ProductsList() {
   const dispatch = useDispatch();
@@ -28,20 +28,24 @@ export function ProductsList() {
     };
   }, [dispatch]);
 
-  const filteredProducts = products
-    .filter(product => {
-      const matchesSearch = product.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      if (sortBy === 'name') return a.name.localeCompare(b.name);
-      if (sortBy === 'price') return a.price - b.price;
-      return 0;
-    });
+  const filteredProducts = useMemo(
+    () =>
+      products
+        .filter(product => {
+          const matchesSearch = product.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+          const matchesCategory =
+            selectedCategory === 'all' || product.category === selectedCategory;
+          return matchesSearch && matchesCategory;
+        })
+        .sort((a, b) => {
+          if (sortBy === 'name') return a.name.localeCompare(b.name);
+          if (sortBy === 'price') return a.price - b.price;
+          return 0;
+        }),
+    [products, searchTerm, sortBy, selectedCategory],
+  );
 
   const handleSearchChange = e => {
     setSearchTerm(e.target.value);
@@ -81,8 +85,7 @@ export function ProductsList() {
             <div className={styles.price}>${product.price}</div>
             <button
               onClick={() => {
-                const action = { type: 'app/addToCart', payload: product };
-                dispatch(action);
+                dispatch(addToCart(product));
               }}
             >
               Добавить в корзину
