@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from './store/store';
 
-import Header from '@components/Header/Header';
+import { ProductsList } from '@features/Products';
+import { Header } from '@widgets/Header';
 import './App.css';
-import { ProductsList } from './features/Products';
 
 function App() {
   return (

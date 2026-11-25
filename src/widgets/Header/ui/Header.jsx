@@ -1,22 +1,21 @@
 import { setUser } from '@/store/store';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { mockUser } from '../data/mockUser';
 import styles from './Header.module.css';
 
-function Header() {
+export function Header() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.app.user);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(
-        setUser({
-          id: 1,
-          name: 'Иван Иванов',
-          email: 'ivan@example.com',
-        }),
-      );
+    const timerId = setTimeout(() => {
+      dispatch(setUser(mockUser));
     }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [dispatch]);
 
   return (
@@ -28,5 +27,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
