@@ -1,4 +1,4 @@
-import { setUser } from '@/store/store';
+import { setUser } from '@app/providers/store/store';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mockUser } from '../data/mockUser';

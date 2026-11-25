@@ -1,9 +1,9 @@
-import { setLoading, setProducts } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mockProducts } from '../../data/mockProducts';
 import ProductFilter from '../ProductsFilter/ProductsFilter';
 import styles from './ProductsList.module.css';
+import { setLoading, setProducts } from '@app/providers/store/store';
 
 export function ProductsList() {
   const dispatch = useDispatch();

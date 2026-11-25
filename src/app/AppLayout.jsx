@@ -1,22 +1,18 @@
 import { useState } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { store } from './store/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ProductsList } from '@features/Products';
 import { Header } from '@widgets/Header';
-import './App.css';
 
-function App() {
+function AppLayout() {
   return (
-    <Provider store={store}>
-      <div className='app'>
-        <Header />
-        <div className='main-content'>
-          <ProductsList />
-          <Cart />
-        </div>
+    <div className='app'>
+      <Header />
+      <div className='main-content'>
+        <ProductsList />
+        <Cart />
       </div>
-    </Provider>
+    </div>
   );
 }
 
@@ -119,4 +115,4 @@ function Cart() {
   );
 }
 
-export default App;
+export default AppLayout;
